@@ -10,8 +10,8 @@ public class MicroController {
 	private Hashtable<String, Register> registers = new Hashtable<String, Register>();
 
 	public MicroController() {
-		registers.put("A", new Register());
-		registers.put("B", new Register());
+		registers.put("A", new Register(1));
+		registers.put("B", new Register(1));
 	}
 
 	public void addInstruction(Instruction instruc) {
