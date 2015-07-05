@@ -25,7 +25,7 @@ public class TestsOverPrograms {
 	}
 
 	@Test
-	public void executeProgramAddNop() { // 100 + 0
+	public void executeProgramAddNop() { // 100 + 0; ;
 		micro.setRegister("A", 100);
 		micro.addInstruction(new Add());
 		micro.addInstruction(new Nop());

@@ -7,6 +7,7 @@ import org.junit.Test;
 
 import exceptions.IllegalValueException;
 import businessModel.MicroController;
+import businessModel.Program;
 import businessModel.instructions.Add;
 import businessModel.instructions.Div;
 import businessModel.instructions.Lod;
@@ -19,69 +20,86 @@ import businessModel.instructions.Swap;
 public class TestsOverUnitaryInstructions {
 
 	private MicroController micro;
+	private Program prog1;
 
 	@Before
 	public void setUp() {
 		micro = new MicroController();
+		prog1 = new Program();
 	}
 
 	@Test
 	public void executeNopInstruction() {
-		micro.addInstruction(new Nop());
-		micro.executeProgram();
+		prog1.addInstruction(new Nop());
+		micro.load(prog1);
+		micro.start();
+		micro.execute();
 	}
 
 	@Test
 	public void executeAddInstruction() {
-		micro.addInstruction(new Add());
-		micro.executeProgram();
+		prog1.addInstruction(new Add());
+		micro.load(prog1);
+		micro.start();
+		micro.execute();
 	}
 
 	@Test
 	public void executeAddInstructionCheckingRegisters() {
+		prog1.addInstruction(new Add());
+		micro.load(prog1);
+		micro.start();
 		micro.setRegister("A", 100);
 		micro.setRegister("B", 50);
-		micro.addInstruction(new Add());
-		micro.executeProgram();
+		micro.execute();
 		assertEquals(0, micro.getRegister("A").getValue(), 0);
 		assertEquals(150, micro.getRegister("B").getValue(), 0);
 	}
 
 	@Test
 	public void executeAddInstructionWithOverflowResultCheckingRegisters() {
+		prog1.addInstruction(new Add());
+		micro.load(prog1);
+		micro.start();
 		micro.setRegister("A", 150);
 		micro.setRegister("B", 200);
-		micro.addInstruction(new Add());
-		micro.executeProgram();
+		micro.execute();
 		assertEquals(95, micro.getRegister("A").getValue(), 0);
 		assertEquals(255, micro.getRegister("B").getValue(), 0);
 	}
 
 	@Test
 	public void executeSubInstruction() {
+		prog1.addInstruction(new Sub());
+		micro.load(prog1);
+		micro.start();
 		micro.setRegister("A", 0);
 		micro.setRegister("B", 50);
-		micro.addInstruction(new Sub());
-		micro.executeProgram();
+		micro.execute();
 	}
 
 	@Test
 	public void executeSubInstructionCheckingRegisters() {
+		prog1.addInstruction(new Sub());
+		micro.load(prog1);
+		micro.start();
 		micro.setRegister("A", 50);
 		micro.setRegister("B", 100);
-		micro.addInstruction(new Sub());
-		micro.executeProgram();
+		micro.execute();
+
 		assertEquals(0, micro.getRegister("A").getValue(), 0);
 		assertEquals(50, micro.getRegister("B").getValue(), 0);
 	}
 
 	@Test
 	public void executeSubInstructionWithNegativeResultAndFail() {
+		prog1.addInstruction(new Sub());
+		micro.load(prog1);
+		micro.start();
 		micro.setRegister("A", 100);
 		micro.setRegister("B", 0);
-		micro.addInstruction(new Sub());
 		try {
-			micro.executeProgram();
+			micro.execute();
 			fail();
 		} catch (IllegalValueException e) {
 			assertEquals("Negative Numbers are not Supported", e.getMessage());
@@ -90,40 +108,51 @@ public class TestsOverUnitaryInstructions {
 
 	@Test
 	public void executeDivInstruction() {
+		prog1.addInstruction(new Div());
+		micro.load(prog1);
+		micro.start();
 		micro.setRegister("A", 50);
 		micro.setRegister("B", 100);
-		micro.addInstruction(new Div());
-		micro.executeProgram();
+		micro.execute();
 	}
 
 	@Test
 	public void executeDivInstructionCheckingRegisters() {
+		prog1.addInstruction(new Div());
+		micro.load(prog1);
+		micro.start();
 		micro.setRegister("A", 50);
 		micro.setRegister("B", 100);
-		micro.addInstruction(new Div());
-		micro.executeProgram();
+		micro.execute();
+
 		assertEquals(0, micro.getRegister("A").getValue(), 0);
 		assertEquals(2, micro.getRegister("B").getValue(), 0);
 	}
 
 	@Test
 	public void executeDivInstructionCheckingTruncate() {
+		prog1.addInstruction(new Div());
+		micro.load(prog1);
+		micro.start();
 		micro.setRegister("A", 50);
 		micro.setRegister("B", 99);
-		micro.addInstruction(new Div());
-		micro.executeProgram();
+		micro.execute();
+
 		assertEquals(0, micro.getRegister("A").getValue(), 0);
 		assertEquals(1, micro.getRegister("B").getValue(), 0);
 	}
 
 	@Test
 	public void executeDivInstructionZeroDivision() {
+		prog1.addInstruction(new Div());
+		micro.load(prog1);
+		micro.start();
 		micro.setRegister("A", 0);
 		micro.setRegister("B", 99);
-		micro.addInstruction(new Div());
+		;
 		try {
-			micro.executeProgram();
-			fail();
+			micro.execute();
+			fail("No Zero Division Exception Throwed");
 		} catch (IllegalValueException e) {
 			assertEquals("Zero Division", e.getMessage());
 		}
@@ -131,42 +160,53 @@ public class TestsOverUnitaryInstructions {
 
 	@Test
 	public void executeSwapInstruction() {
+		prog1.addInstruction(new Swap());
+		micro.load(prog1);
+		micro.start();
 		micro.setRegister("A", 50);
 		micro.setRegister("B", 100);
-		micro.addInstruction(new Swap());
-		micro.executeProgram();
+		micro.execute();
 	}
 
 	@Test
 	public void executeSwapInstructionCheckingRegisters() {
+		prog1.addInstruction(new Swap());
+		micro.load(prog1);
+		micro.start();
 		micro.setRegister("A", 50);
 		micro.setRegister("B", 100);
-		micro.addInstruction(new Swap());
-		micro.executeProgram();
+		micro.execute();
+
 		assertEquals(100, micro.getRegister("A").getValue(), 0);
 		assertEquals(50, micro.getRegister("B").getValue(), 0);
 	}
 
 	@Test
 	public void executeLodInstruction() {
-		micro.addInstruction(new Lod(15));
-		micro.executeProgram();
+		prog1.addInstruction(new Lod(15));
+		micro.load(prog1);
+		micro.start();
+		micro.execute();
 	}
 
 	@Test
 	public void executeLodInstructionCheckingRegister() {
+		prog1.addInstruction(new Lod(15));
+		micro.load(prog1);
+		micro.start();
 		micro.writeOnMemoryPosition(15, 1);
-		micro.addInstruction(new Lod(15));
-		micro.executeProgram();
+		micro.execute();
 		assertEquals(1, micro.getRegister("A").getValue(), 0);
 	}
 
 	@Test
 	public void executeLodInstructionWithNegativeAddressAndFail() {
-		micro.addInstruction(new Lod(-1));
+		prog1.addInstruction(new Lod(-1));
+		micro.load(prog1);
+		micro.start();
 		try {
-			micro.executeProgram();
-			fail();
+			micro.execute();
+			fail("No Invalid Address Exception Throwed");
 		} catch (IllegalValueException e) {
 			assertEquals("Invalid Memory Address", e.getMessage());
 		}
@@ -174,10 +214,12 @@ public class TestsOverUnitaryInstructions {
 
 	@Test
 	public void executeLodInstructionWithOutOfBoundsAddressAndFail() {
-		micro.addInstruction(new Lod(1024));
+		prog1.addInstruction(new Lod(1024));
+		micro.load(prog1);
+		micro.start();
 		try {
-			micro.executeProgram();
-			fail();
+			micro.execute();
+			fail("No Invalid Address Exception Throwed");
 		} catch (IllegalValueException e) {
 			assertEquals("Invalid Memory Address", e.getMessage());
 		}
@@ -185,25 +227,32 @@ public class TestsOverUnitaryInstructions {
 
 	@Test
 	public void executeStrInstruction() {
+		prog1.addInstruction(new Str(15));
+		micro.load(prog1);
+		micro.start();
 		micro.setRegister("A", 95);
-		micro.addInstruction(new Str(15));
-		micro.executeProgram();
+		micro.execute();
 	}
 
 	@Test
 	public void executeStrInstructionCheckingMemory() {
+		prog1.addInstruction(new Str(15));
+		micro.load(prog1);
+		micro.start();
 		micro.setRegister("A", 95);
-		micro.addInstruction(new Str(15));
-		micro.executeProgram();
+		micro.execute();
+
 		assertEquals(95, micro.readFromMemory(15), 0);
 	}
 
 	@Test
 	public void executeStrInstructionWithOutOfBoundsAddressAndFail() {
-		micro.addInstruction(new Str(1024));
+		prog1.addInstruction(new Str(1024));
+		micro.load(prog1);
+		micro.start();
 		try {
-			micro.executeProgram();
-			fail();
+			micro.execute();
+			fail("No Invalid Address Exception Throwed");
 		} catch (IllegalValueException e) {
 			assertEquals("Invalid Memory Address", e.getMessage());
 		}
@@ -211,10 +260,12 @@ public class TestsOverUnitaryInstructions {
 
 	@Test
 	public void executeStrInstructionWithNegativeAddressAndFail() {
-		micro.addInstruction(new Str(-1));
+		prog1.addInstruction(new Str(-1));
+		micro.load(prog1);
+		micro.start();
 		try {
-			micro.executeProgram();
-			fail();
+			micro.execute();
+			fail("No Invalid Address Exception Throwed");
 		} catch (IllegalValueException e) {
 			assertEquals("Invalid Memory Address", e.getMessage());
 		}
@@ -222,23 +273,29 @@ public class TestsOverUnitaryInstructions {
 
 	@Test
 	public void executeLodvInstruction() {
-		micro.addInstruction(new Lodv(15));
-		micro.executeProgram();
+		prog1.addInstruction(new Lodv(15));
+		micro.load(prog1);
+		micro.start();
+		micro.execute();
 	}
 
 	@Test
 	public void executeLodvInstructionCheckingRegister() {
-		micro.addInstruction(new Lodv(15));
-		micro.executeProgram();
+		prog1.addInstruction(new Lodv(15));
+		micro.load(prog1);
+		micro.start();
+		micro.execute();
 		assertEquals(15, micro.getRegister("A").getValue(), 0);
 	}
 
 	@Test
 	public void executeLodvInstructionWithNegativeValueAndFail() {
-		micro.addInstruction(new Lodv(-1));
+		prog1.addInstruction(new Lodv(-1));
+		micro.load(prog1);
+		micro.start();
 		try {
-			micro.executeProgram();
-			fail();
+			micro.execute();
+			fail("No Illegal Value Exception Throwed");
 		} catch (IllegalValueException e) {
 			assertEquals("Negative Numbers are not Supported", e.getMessage());
 		}
@@ -246,10 +303,12 @@ public class TestsOverUnitaryInstructions {
 
 	@Test
 	public void executeLodvInstructionWithOutOfBoundsValueAndFail() {
-		micro.addInstruction(new Lodv(256));
+		prog1.addInstruction(new Lodv(256));
+		micro.load(prog1);
+		micro.start();
 		try {
-			micro.executeProgram();
-			fail();
+			micro.execute();
+			fail("No Illegal Value Exception Throwed");
 		} catch (IllegalValueException e) {
 			assertEquals("Number Range Overflow", e.getMessage());
 		}
