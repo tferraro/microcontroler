@@ -44,4 +44,10 @@ public enum StopState implements ControllerState {
 			throw new IllegalOperationException("Program cannot be null");
 	}
 
+	@Override
+	public void stepBack(MicroController microController) {
+		throw new IllegalOperationException(
+				"Program is stopped, must be first started to step");
+	}
+
 }

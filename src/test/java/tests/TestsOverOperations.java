@@ -163,7 +163,7 @@ public class TestsOverOperations {
 		micro.load(new ProgramBuilder().lodv(15).swap().lodv(5).add().swap()
 				.build());
 		micro.start();
-		assertEquals(0, micro.getFlags().getIP(), 0);
+		assertEquals(0, micro.getIP(), 0);
 	}
 
 	@Test
@@ -330,5 +330,57 @@ public class TestsOverOperations {
 		assertEquals(20, micro.getRegister("A").getValue(), 0);
 		assertEquals(0, micro.getRegister("B").getValue(), 0);
 		assertEquals(StopState.INSTANCE, micro.getState());
+	}
+
+	@Test
+	public void stepBackWithoutLoadAndFail() {
+		try {
+			micro.stepBack();
+			fail("No Exception Launched");
+		} catch (IllegalOperationException e) {
+			assertEquals("Program is stopped, must be first started to step",
+					e.getMessage());
+		}
+
+	}
+
+	@Test
+	public void stepBackWithoutStartingAndFail() {
+		micro.load(new ProgramBuilder().lodv(15).swap().lodv(5).add().swap()
+				.build());
+		try {
+			micro.stepBack();
+			fail("No Exception Launched");
+		} catch (IllegalOperationException e) {
+			assertEquals("Program must be first started correctly",
+					e.getMessage());
+		}
+
+	}
+
+	@Test
+	public void stepBackWithoutSteppingAndFail() {
+		micro.load(new ProgramBuilder().lodv(15).swap().lodv(5).add().swap()
+				.build());
+		micro.start();
+		try {
+			micro.stepBack();
+			fail("No Exception Launched");
+		} catch (IllegalOperationException e) {
+			assertEquals("Program must be first stepped", e.getMessage());
+		}
+	}
+
+	// @Test
+	public void stepBackLoadv() {
+		micro.load(new ProgramBuilder().lodv(15).swap().lodv(5).add().swap()
+				.build());
+		micro.start();
+		micro.step();
+		assertEquals(15, micro.getRegister("A").getValue(), 0);
+		assertEquals(0, micro.getRegister("B").getValue(), 0);
+		micro.stepBack();
+		assertEquals(0, micro.getRegister("A").getValue(), 0);
+		assertEquals(0, micro.getRegister("B").getValue(), 0);
 	}
 }

@@ -35,4 +35,9 @@ public enum StartState implements ControllerState {
 		micro.setState(StopState.INSTANCE);
 	}
 
+	@Override
+	public void stepBack(MicroController microController) {
+		throw new IllegalOperationException("Program must be first stepped");
+	}
+
 }

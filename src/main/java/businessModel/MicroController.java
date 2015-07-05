@@ -1,6 +1,7 @@
 package businessModel;
 
 import java.util.Hashtable;
+
 import businessModel.state.ControllerState;
 import businessModel.state.StopState;
 
@@ -10,11 +11,11 @@ public class MicroController {
 	private MainMemory memory = new MainMemory(1024);
 	private Program program = null;
 	private ControllerState state = StopState.INSTANCE;
-	private ControllerFlags flags = new ControllerFlags();
 
 	public MicroController() {
 		registers.put("A", new Register(1));
 		registers.put("B", new Register(1));
+		registers.put("IP", new Register(2));
 	}
 
 	public Register getRegister(String registerLetter) {
@@ -41,10 +42,6 @@ public class MicroController {
 		this.program = prog;
 	}
 
-	public ControllerFlags getFlags() {
-		return this.flags;
-	}
-
 	public Integer readFromMemory(Integer memoryAddr) {
 		return this.memory.getDataFrom(memoryAddr);
 	}
@@ -56,8 +53,12 @@ public class MicroController {
 	public void clearMicro() {
 		registers.get("A").setValue(0);
 		registers.get("B").setValue(0);
+		registers.get("IP").setValue(0);
 		memory.cleanMemory();
-		flags.clear();
+	}
+
+	public Integer getIP() {
+		return this.getRegister("IP").getValue();
 	}
 
 	public void load(Program program) {
@@ -79,4 +80,15 @@ public class MicroController {
 	public void stop() {
 		this.state.stop(this);
 	}
+
+	public void stepBack() {
+		this.state.stepBack(this);
+
+		// TODO Step Back
+	}
+
+	public void updateIP() {
+		this.setRegister("IP", this.getRegister("IP").getValue() + 1);
+	}
+
 }

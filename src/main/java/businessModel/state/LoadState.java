@@ -35,4 +35,10 @@ public enum LoadState implements ControllerState {
 		throw new IllegalOperationException("Program is already stopped");
 	}
 
+	@Override
+	public void stepBack(MicroController microController) {
+		throw new IllegalOperationException(
+				"Program must be first started correctly");
+	}
+
 }

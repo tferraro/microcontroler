@@ -15,15 +15,14 @@ public class Program {
 	}
 
 	public void executeAll(MicroController micro) {
-		while (micro.getFlags().getIP() < instructions.size()) {
-			instructions.get(micro.getFlags().getIP()).execute(micro);
+		while (micro.getIP() < instructions.size()) {
+			instructions.get(micro.getIP()).execute(micro);
 		}
 	}
 
 	public void execute(MicroController micro) {
-		instructions.get(micro.getFlags().getIP()).execute(micro);
-		if (micro.getFlags().getIP() == instructions.size())
+		instructions.get(micro.getIP()).execute(micro);
+		if (micro.getIP() == instructions.size())
 			throw new FinishedExecutionException("Last Step Finished");
 	}
-
 }
