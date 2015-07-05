@@ -371,7 +371,7 @@ public class TestsOverOperations {
 		}
 	}
 
-	// @Test
+	@Test
 	public void stepBackLoadv() {
 		micro.load(new ProgramBuilder().lodv(15).swap().lodv(5).add().swap()
 				.build());
@@ -382,5 +382,37 @@ public class TestsOverOperations {
 		micro.stepBack();
 		assertEquals(0, micro.getRegister("A").getValue(), 0);
 		assertEquals(0, micro.getRegister("B").getValue(), 0);
+	}
+
+	@Test
+	public void stepBackCheckingRegisterValues() {
+		micro.load(new ProgramBuilder().lodv(15).swap().lodv(5).add().swap()
+				.build());
+		micro.start();
+		micro.step();
+		micro.step();
+		micro.step();
+		micro.step();
+		assertEquals(0, micro.getRegister("A").getValue(), 0);
+		assertEquals(20, micro.getRegister("B").getValue(), 0);
+		micro.stepBack();
+		micro.stepBack();
+		assertEquals(0, micro.getRegister("A").getValue(), 0);
+		assertEquals(15, micro.getRegister("B").getValue(), 0);
+		micro.stepBack();
+		micro.stepBack();
+		assertEquals(0, micro.getRegister("A").getValue(), 0);
+		assertEquals(0, micro.getRegister("B").getValue(), 0);
+	}
+
+	@Test
+	public void stepBackCheckingMemoryValue() {
+		micro.load(new ProgramBuilder().lodv(15).str(0).swap().build());
+		micro.start();
+		micro.step();
+		micro.step();
+		assertEquals(15, micro.readFromMemory(0), 0);
+		micro.stepBack();
+		assertEquals(0, micro.readFromMemory(0), 0);
 	}
 }

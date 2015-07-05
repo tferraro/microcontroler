@@ -12,6 +12,7 @@ public class Lodv extends Instruction {
 
 	public void execute(MicroController micro) {
 		micro.setRegister("A", value);
+		micro.setRegister("B");
 		super.execute(micro);
 	}
 

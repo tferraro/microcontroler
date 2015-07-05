@@ -11,6 +11,7 @@ public class MicroController {
 	private MainMemory memory = new MainMemory(1024);
 	private Program program = null;
 	private ControllerState state = StopState.INSTANCE;
+	private Integer amountRegAccess = 0;
 
 	public MicroController() {
 		registers.put("A", new Register(1));
@@ -24,6 +25,10 @@ public class MicroController {
 
 	public void setRegister(String registerLetter, Integer registerValue) {
 		this.getRegister(registerLetter).setValue(registerValue);
+	}
+
+	public void setRegister(String registerLetter) {
+		this.setRegister(registerLetter, getRegister(registerLetter).getValue());
 	}
 
 	public void setState(ControllerState state) {
@@ -51,10 +56,11 @@ public class MicroController {
 	}
 
 	public void clearMicro() {
-		registers.get("A").setValue(0);
-		registers.get("B").setValue(0);
-		registers.get("IP").setValue(0);
+		registers.get("A").reset();
+		registers.get("B").reset();
+		registers.get("IP").reset();
 		memory.cleanMemory();
+		amountRegAccess = 0;
 	}
 
 	public Integer getIP() {
@@ -83,12 +89,18 @@ public class MicroController {
 
 	public void stepBack() {
 		this.state.stepBack(this);
-
-		// TODO Step Back
+		this.getRegister("A").setBack(amountRegAccess);
+		this.getRegister("B").setBack(amountRegAccess);
+		this.getRegister("IP").setBack(amountRegAccess);
+		this.memory.setBack();
+		this.amountRegAccess--;
 	}
 
 	public void updateIP() {
 		this.setRegister("IP", this.getRegister("IP").getValue() + 1);
 	}
 
+	public void updateAmounRegExecuted() {
+		this.amountRegAccess++;
+	}
 }

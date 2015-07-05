@@ -6,6 +6,7 @@ public abstract class Instruction {
 
 	public void execute(MicroController micro) {
 		micro.updateIP();
+		micro.updateAmounRegExecuted();
 	}
 
 }
