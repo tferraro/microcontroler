@@ -14,7 +14,7 @@ public class Div extends Instruction {
 
 		Integer result;
 		try {
-			result = regBValue.divide(regAValue, RoundingMode.DOWN).intValue();
+			result = regAValue.divide(regBValue, RoundingMode.DOWN).intValue();
 			micro.setRegister("A", 0);
 			micro.setRegister("B", result);
 			super.execute(micro);

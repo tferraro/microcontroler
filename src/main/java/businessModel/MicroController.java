@@ -1,17 +1,11 @@
 package businessModel;
 
-import java.util.ArrayList;
 import java.util.Hashtable;
-import java.util.List;
-
-import businessModel.instructions.Instruction;
 import businessModel.state.ControllerState;
 import businessModel.state.StopState;
 
 public class MicroController {
 
-	@Deprecated
-	private List<Instruction> instructionSet = new ArrayList<Instruction>();
 	private Hashtable<String, Register> registers = new Hashtable<String, Register>();
 	private MainMemory memory = new MainMemory(1024);
 	private Program program = null;
@@ -49,16 +43,6 @@ public class MicroController {
 
 	public ControllerFlags getFlags() {
 		return this.flags;
-	}
-
-	@Deprecated
-	public void addInstruction(Instruction instruc) {
-		this.instructionSet.add(instruc);
-	}
-
-	@Deprecated
-	public void executeProgram() {
-		instructionSet.forEach(instr -> instr.execute(this));
 	}
 
 	public Integer readFromMemory(Integer memoryAddr) {

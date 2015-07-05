@@ -111,8 +111,8 @@ public class TestsOverUnitaryInstructions {
 		prog1.addInstruction(new Div());
 		micro.load(prog1);
 		micro.start();
-		micro.setRegister("A", 50);
-		micro.setRegister("B", 100);
+		micro.setRegister("A", 100);
+		micro.setRegister("B", 50);
 		micro.execute();
 	}
 
@@ -121,8 +121,8 @@ public class TestsOverUnitaryInstructions {
 		prog1.addInstruction(new Div());
 		micro.load(prog1);
 		micro.start();
-		micro.setRegister("A", 50);
-		micro.setRegister("B", 100);
+		micro.setRegister("A", 100);
+		micro.setRegister("B", 50);
 		micro.execute();
 
 		assertEquals(0, micro.getRegister("A").getValue(), 0);
@@ -134,8 +134,8 @@ public class TestsOverUnitaryInstructions {
 		prog1.addInstruction(new Div());
 		micro.load(prog1);
 		micro.start();
-		micro.setRegister("A", 50);
-		micro.setRegister("B", 99);
+		micro.setRegister("A", 99);
+		micro.setRegister("B", 50);
 		micro.execute();
 
 		assertEquals(0, micro.getRegister("A").getValue(), 0);
@@ -147,8 +147,8 @@ public class TestsOverUnitaryInstructions {
 		prog1.addInstruction(new Div());
 		micro.load(prog1);
 		micro.start();
-		micro.setRegister("A", 0);
-		micro.setRegister("B", 99);
+		micro.setRegister("A", 99);
+		micro.setRegister("B", 0);
 		;
 		try {
 			micro.execute();
