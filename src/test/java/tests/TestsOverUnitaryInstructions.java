@@ -16,7 +16,7 @@ import businessModel.instructions.Str;
 import businessModel.instructions.Sub;
 import businessModel.instructions.Swap;
 
-public class TestsOverInstructions {
+public class TestsOverUnitaryInstructions {
 
 	private MicroController micro;
 
@@ -55,37 +55,6 @@ public class TestsOverInstructions {
 		micro.executeProgram();
 		assertEquals(95, micro.getRegister("A").getValue(), 0);
 		assertEquals(255, micro.getRegister("B").getValue(), 0);
-	}
-
-	@Test
-	public void getRegisterFromMicroControllerUsingLowerCaseLetter() {
-		assertEquals(0, micro.getRegister("a").getValue(), 0);
-	}
-
-	@Test
-	public void setRegisterFromMicroControllerUsingLowerCaseLetter() {
-		micro.setRegister("a", 15);
-		assertEquals(15, micro.getRegister("A").getValue(), 0);
-	}
-
-	@Test
-	public void setRegisterWithNegativeAndFail() {
-		try {
-			micro.setRegister("A", -1);
-			fail();
-		} catch (IllegalValueException e) {
-			assertEquals("Negative Numbers are not Supported", e.getMessage());
-		}
-	}
-
-	@Test
-	public void setRegisterWithOutOfBoundsValueAndFail() {
-		try {
-			micro.setRegister("A", 256);
-			fail();
-		} catch (IllegalValueException e) {
-			assertEquals("Number Range Overflow", e.getMessage());
-		}
 	}
 
 	@Test

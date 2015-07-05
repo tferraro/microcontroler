@@ -1,12 +1,14 @@
 package businessModel;
 
+import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.List;
 
 import businessModel.instructions.Instruction;
 
 public class MicroController {
 
-	private Instruction instruction;
+	private List<Instruction> program = new ArrayList<Instruction>();
 	private Hashtable<String, Register> registers = new Hashtable<String, Register>();
 	private MainMemory memory = new MainMemory(1024);
 
@@ -16,11 +18,11 @@ public class MicroController {
 	}
 
 	public void addInstruction(Instruction instruc) {
-		this.instruction = instruc;
+		this.program.add(instruc);
 	}
 
 	public void executeProgram() {
-		instruction.execute(this);
+		program.forEach(instr -> instr.execute(this));
 	}
 
 	public Register getRegister(String registerLetter) {
