@@ -1,16 +1,27 @@
 package businessModel;
 
+import exceptions.IllegalValueException;
+
 public class Register {
 
 	private Integer value = 0;
-	private Integer limit;
+	private Integer maxValue;
 
 	public Register(Integer bytesSize) {
-		limit = bytesSize * 256;
+		maxValue = (bytesSize * 256) - 1;
 	}
 
 	public void setValue(Integer registerValue) {
+		checkValueRange(registerValue);
 		this.value = registerValue;
+	}
+
+	private void checkValueRange(Integer valueOnTest) {
+		if (valueOnTest < 0)
+			throw new IllegalValueException(
+					"Negative Numbers are not Supported");
+		if (valueOnTest > maxValue)
+			throw new IllegalValueException("Number Range Overflow");
 	}
 
 	public Integer getValue() {
@@ -18,7 +29,7 @@ public class Register {
 	}
 
 	public Integer getLimit() {
-		return this.limit - 1;
+		return this.maxValue;
 	}
 
 }

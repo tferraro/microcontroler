@@ -5,21 +5,24 @@ import businessModel.Register;
 
 public class Add implements Instruction {
 
+	private MicroController micro;
+
 	@Override
-	public void execute(MicroController micro) {
+	public void execute(MicroController microArgument) {
+		this.micro = microArgument;
 		Register regA = micro.getRegister("A");
 		Register regB = micro.getRegister("B");
 		Integer result = regA.getValue() + regB.getValue();
-		
-		if (result > regB.getLimit()) {
-			// Exists Overflow
-			micro.setRegister("A", result - regB.getLimit());
-			micro.setRegister("B", regB.getLimit());
-		} else {
-			micro.setRegister("A", 0);
-			micro.setRegister("B", result);
 
-		}
+		if (result > regB.getLimit()) // Overflow Exists
+			setRegisters(result - regB.getLimit(), regB.getLimit());
+		else
+			setRegisters(0, result);
+	}
+
+	public void setRegisters(Integer regAvalue, Integer regBvalue) {
+		micro.setRegister("A", regAvalue);
+		micro.setRegister("B", regBvalue);
 	}
 
 }
