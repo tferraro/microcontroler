@@ -13,4 +13,6 @@ public interface ControllerState {
 
 	void step(MicroController micro);
 
+	void stop(MicroController micro);
+
 }

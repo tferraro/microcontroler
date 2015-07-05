@@ -91,4 +91,8 @@ public class MicroController {
 	public void step() {
 		this.state.step(this);
 	}
+
+	public void stop() {
+		this.state.stop(this);
+	}
 }

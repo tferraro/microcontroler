@@ -30,4 +30,9 @@ public enum LoadState implements ControllerState {
 				"Program must be first started correctly");
 	}
 
+	@Override
+	public void stop(MicroController micro) {
+		throw new IllegalOperationException("Program is already stopped");
+	}
+
 }

@@ -30,4 +30,9 @@ public enum StartState implements ControllerState {
 		micro.step();
 	}
 
+	@Override
+	public void stop(MicroController micro) {
+		micro.setState(StopState.INSTANCE);
+	}
+
 }

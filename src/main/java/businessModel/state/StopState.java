@@ -30,7 +30,13 @@ public enum StopState implements ControllerState {
 
 	@Override
 	public void step(MicroController micro) {
-		throw new IllegalOperationException("Program is stopped, must be first started to step");
+		throw new IllegalOperationException(
+				"Program is stopped, must be first started to step");
+	}
+
+	@Override
+	public void stop(MicroController micro) {
+		throw new IllegalOperationException("Program is already stopped");
 	}
 
 	private void checkLoad(MicroController micro) {

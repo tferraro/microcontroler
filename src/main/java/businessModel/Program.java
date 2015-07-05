@@ -14,9 +14,10 @@ public class Program {
 		this.instructions.add(instruction);
 	}
 
-	public void executeAll(MicroController controller) {
-		this.instructions.forEach(instruction -> instruction
-				.execute(controller));
+	public void executeAll(MicroController micro) {
+		while (micro.getFlags().getIP() < instructions.size()) {
+			instructions.get(micro.getFlags().getIP()).execute(micro);
+		}
 	}
 
 	public void execute(MicroController micro) {

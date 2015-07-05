@@ -250,4 +250,85 @@ public class TestsOverOperations {
 			assertEquals(StopState.INSTANCE, micro.getState());
 		}
 	}
+
+	@Test
+	public void tryStopWhileStoppedAndFail() {
+		try {
+			micro.stop();
+			fail("No Exception Launched");
+		} catch (IllegalOperationException e) {
+			assertEquals("Program is already stopped", e.getMessage());
+		}
+	}
+
+	@Test
+	public void tryStopWhileLoadedAndFail() {
+		micro.load(new ProgramBuilder().lodv(15).swap().lodv(5).add().swap()
+				.build());
+		try {
+			micro.stop();
+			fail("No Exception Launched");
+		} catch (IllegalOperationException e) {
+			assertEquals("Program is already stopped", e.getMessage());
+		}
+	}
+
+	@Test
+	public void stopWhileStartedCheckingState() {
+		micro.load(new ProgramBuilder().lodv(15).swap().lodv(5).add().swap()
+				.build());
+		micro.start();
+		micro.stop();
+		assertEquals(StopState.INSTANCE, micro.getState());
+	}
+
+	@Test
+	public void stopWhileSteppingCheckingState() {
+		micro.load(new ProgramBuilder().lodv(15).swap().lodv(5).add().swap()
+				.build());
+		micro.start();
+		micro.step();
+		micro.stop();
+		assertEquals(StopState.INSTANCE, micro.getState());
+	}
+
+	@Test
+	public void stopAfterExecutingCheckingState() {
+		micro.load(new ProgramBuilder().lodv(15).swap().lodv(5).add().swap()
+				.build());
+		micro.start();
+		micro.execute();
+		try {
+			micro.stop();
+			fail("No Exception Launched");
+		} catch (IllegalOperationException e) {
+			assertEquals("Program is already stopped", e.getMessage());
+		}
+	}
+
+	@Test
+	public void stepTillEndAndExecuteOnce() {
+		micro.load(new ProgramBuilder().lodv(15).swap().lodv(5).add().swap()
+				.build());
+		micro.start();
+		micro.step();
+		micro.step();
+		micro.step();
+		micro.step();
+		micro.step();
+		micro.execute();
+	}
+
+	@Test
+	public void executeFromMiddleOfStepCheckingRegistersAndState() {
+		micro.load(new ProgramBuilder().lodv(15).swap().lodv(5).add().swap()
+				.build());
+		micro.start();
+		micro.step();
+		micro.step();
+		micro.execute();
+		assertEquals(20, micro.getRegister("A").getValue(), 0);
+		assertEquals(0, micro.getRegister("B").getValue(), 0);
+		assertEquals(StopState.INSTANCE, micro.getState());
+	}
 }
