@@ -16,7 +16,7 @@ import businessModel.instructions.Str;
 import businessModel.instructions.Sub;
 import businessModel.instructions.Swap;
 
-public class TestsOverInstructions {
+public class TestsOverUnitaryInstructions {
 
 	private MicroController micro;
 
