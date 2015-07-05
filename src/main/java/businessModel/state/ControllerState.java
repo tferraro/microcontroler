@@ -7,4 +7,6 @@ public interface ControllerState {
 
 	void load(MicroController micro, Program program);
 
+	void start(MicroController micro);
+
 }

@@ -6,7 +6,6 @@ import java.util.List;
 
 import businessModel.instructions.Instruction;
 import businessModel.state.ControllerState;
-import businessModel.state.LoadState;
 import businessModel.state.StopState;
 
 public class MicroController {
@@ -23,6 +22,30 @@ public class MicroController {
 		registers.put("B", new Register(1));
 	}
 
+	public Register getRegister(String registerLetter) {
+		return this.registers.get(registerLetter.toUpperCase());
+	}
+
+	public void setRegister(String registerLetter, Integer registerValue) {
+		this.getRegister(registerLetter).setValue(registerValue);
+	}
+
+	public void setState(ControllerState state) {
+		this.state = state;
+	}
+
+	public ControllerState getState() {
+		return this.state;
+	}
+
+	public Program getProgram() {
+		return this.program;
+	}
+
+	public void loadProgram(Program prog) {
+		this.program = prog;
+	}
+
 	@Deprecated
 	public void addInstruction(Instruction instruc) {
 		this.instructionSet.add(instruc);
@@ -31,14 +54,6 @@ public class MicroController {
 	@Deprecated
 	public void executeProgram() {
 		instructionSet.forEach(instr -> instr.execute(this));
-	}
-
-	public Register getRegister(String registerLetter) {
-		return this.registers.get(registerLetter.toUpperCase());
-	}
-
-	public void setRegister(String registerLetter, Integer registerValue) {
-		this.getRegister(registerLetter).setValue(registerValue);
 	}
 
 	public Integer readFromMemory(Integer memoryAddr) {
@@ -53,16 +68,14 @@ public class MicroController {
 		this.state.load(this, program);
 	}
 
-	public void loadProgram(Program prog) {
-		this.program = prog;
+	public void start() {
+		this.state.start(this);
 	}
 
-	public void setState(ControllerState state) {
-		this.state = state;
-	}
-
-	public ControllerState getState() {
-		return this.state;
+	public void clearMicro() {
+		registers.get("A").setValue(0);
+		registers.get("B").setValue(0);
+		memory.cleanMemory();
 	}
 
 }

@@ -6,6 +6,7 @@ import java.util.List;
 import businessModel.instructions.Add;
 import businessModel.instructions.Instruction;
 import businessModel.instructions.Lodv;
+import businessModel.instructions.Nop;
 import businessModel.instructions.Swap;
 
 public class ProgramBuilder {
@@ -32,6 +33,11 @@ public class ProgramBuilder {
 		instructions.forEach(instruction -> newProgram
 				.addInstruction(instruction));
 		return newProgram;
+	}
+
+	public ProgramBuilder nop() {
+		this.instructions.add(new Nop());
+		return this;
 	}
 
 }
