@@ -9,14 +9,25 @@ public enum StartState implements ControllerState {
 
 	@Override
 	public void load(MicroController micro, Program program) {
-		throw new IllegalOperationException("Program Must be Stopped properly first");
-		
+		throw new IllegalOperationException(
+				"Program Must be Stopped properly first");
 	}
 
 	@Override
 	public void start(MicroController micro) {
-		// TODO Auto-generated method stub
-		
+		throw new IllegalOperationException("Program Already Started");
+	}
+
+	@Override
+	public void execute(MicroController micro) {
+		micro.setState(ExecuteState.INSTANCE);
+		micro.execute();
+	}
+
+	@Override
+	public void step(MicroController micro) {
+		micro.setState(ExecuteState.INSTANCE);
+		micro.step();
 	}
 
 }

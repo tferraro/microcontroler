@@ -3,11 +3,10 @@ package businessModel.instructions;
 import businessModel.MicroController;
 import businessModel.Register;
 
-public class Add implements Instruction {
+public class Add extends Instruction {
 
 	private MicroController micro;
 
-	@Override
 	public void execute(MicroController microArgument) {
 		this.micro = microArgument;
 		Register regA = micro.getRegister("A");
@@ -18,6 +17,7 @@ public class Add implements Instruction {
 			setRegisters(result - regB.getLimit(), regB.getLimit());
 		else
 			setRegisters(0, result);
+		super.execute(micro);
 	}
 
 	public void setRegisters(Integer regAvalue, Integer regBvalue) {

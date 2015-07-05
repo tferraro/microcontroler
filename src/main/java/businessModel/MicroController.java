@@ -16,6 +16,7 @@ public class MicroController {
 	private MainMemory memory = new MainMemory(1024);
 	private Program program = null;
 	private ControllerState state = StopState.INSTANCE;
+	private ControllerFlags flags = new ControllerFlags();
 
 	public MicroController() {
 		registers.put("A", new Register(1));
@@ -46,6 +47,10 @@ public class MicroController {
 		this.program = prog;
 	}
 
+	public ControllerFlags getFlags() {
+		return this.flags;
+	}
+
 	@Deprecated
 	public void addInstruction(Instruction instruc) {
 		this.instructionSet.add(instruc);
@@ -64,6 +69,13 @@ public class MicroController {
 		this.memory.setDataOn(position, value);
 	}
 
+	public void clearMicro() {
+		registers.get("A").setValue(0);
+		registers.get("B").setValue(0);
+		memory.cleanMemory();
+		flags.clear();
+	}
+
 	public void load(Program program) {
 		this.state.load(this, program);
 	}
@@ -72,10 +84,11 @@ public class MicroController {
 		this.state.start(this);
 	}
 
-	public void clearMicro() {
-		registers.get("A").setValue(0);
-		registers.get("B").setValue(0);
-		memory.cleanMemory();
+	public void execute() {
+		this.state.execute(this);
 	}
 
+	public void step() {
+		this.state.step(this);
+	}
 }

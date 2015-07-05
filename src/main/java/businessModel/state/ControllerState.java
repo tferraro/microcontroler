@@ -9,4 +9,8 @@ public interface ControllerState {
 
 	void start(MicroController micro);
 
+	void execute(MicroController micro);
+
+	void step(MicroController micro);
+
 }

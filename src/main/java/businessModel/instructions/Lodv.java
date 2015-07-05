@@ -2,7 +2,7 @@ package businessModel.instructions;
 
 import businessModel.MicroController;
 
-public class Lodv implements Instruction {
+public class Lodv extends Instruction {
 
 	private Integer value;
 
@@ -10,9 +10,9 @@ public class Lodv implements Instruction {
 		this.value = value;
 	}
 
-	@Override
 	public void execute(MicroController micro) {
 		micro.setRegister("A", value);
+		super.execute(micro);
 	}
 
 }

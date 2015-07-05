@@ -2,8 +2,10 @@ package businessModel.instructions;
 
 import businessModel.MicroController;
 
-public interface Instruction {
+public abstract class Instruction {
 
-	void execute(MicroController micro);
+	public void execute(MicroController micro) {
+		micro.getFlags().updateIP();
+	}
 
 }

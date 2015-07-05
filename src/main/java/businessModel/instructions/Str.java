@@ -2,7 +2,7 @@ package businessModel.instructions;
 
 import businessModel.MicroController;
 
-public class Str implements Instruction {
+public class Str extends Instruction {
 
 	private Integer memoryAddr;
 
@@ -10,10 +10,10 @@ public class Str implements Instruction {
 		this.memoryAddr = addr;
 	}
 
-	@Override
 	public void execute(MicroController micro) {
 		micro.writeOnMemoryPosition(memoryAddr, micro.getRegister("A")
 				.getValue());
+		super.execute(micro);
 	}
 
 }
