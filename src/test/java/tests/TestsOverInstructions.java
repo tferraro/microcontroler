@@ -58,37 +58,6 @@ public class TestsOverInstructions {
 	}
 
 	@Test
-	public void getRegisterFromMicroControllerUsingLowerCaseLetter() {
-		assertEquals(0, micro.getRegister("a").getValue(), 0);
-	}
-
-	@Test
-	public void setRegisterFromMicroControllerUsingLowerCaseLetter() {
-		micro.setRegister("a", 15);
-		assertEquals(15, micro.getRegister("A").getValue(), 0);
-	}
-
-	@Test
-	public void setRegisterWithNegativeAndFail() {
-		try {
-			micro.setRegister("A", -1);
-			fail();
-		} catch (IllegalValueException e) {
-			assertEquals("Negative Numbers are not Supported", e.getMessage());
-		}
-	}
-
-	@Test
-	public void setRegisterWithOutOfBoundsValueAndFail() {
-		try {
-			micro.setRegister("A", 256);
-			fail();
-		} catch (IllegalValueException e) {
-			assertEquals("Number Range Overflow", e.getMessage());
-		}
-	}
-
-	@Test
 	public void executeSubInstruction() {
 		micro.setRegister("A", 0);
 		micro.setRegister("B", 50);
