@@ -5,7 +5,9 @@ Microcontroller Simulator made in Java8.
 ### Microcontroller settings:
 
 **Main Memory:** 10 bit memory addresses (total of 1024 bytes).
+
 **Registers:** 2 1 byte Registers (A and B), being B the Register the one of the less significative byte.
+
 **Instruction Set:** BATIS.
 
 ### BATIS(Basic Assembler Type Instruction Set) Instruction Set:
