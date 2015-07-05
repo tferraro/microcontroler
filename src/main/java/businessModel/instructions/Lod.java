@@ -13,6 +13,7 @@ public class Lod extends Instruction {
 	public void execute(MicroController micro) {
 		Integer value = micro.readFromMemory(memoryAddr);
 		micro.setRegister("A", value);
+		micro.setRegister("B");
 		super.execute(micro);
 	}
 

@@ -1,6 +1,7 @@
 package businessModel;
 
 import java.util.Hashtable;
+
 import businessModel.state.ControllerState;
 import businessModel.state.StopState;
 
@@ -10,11 +11,12 @@ public class MicroController {
 	private MainMemory memory = new MainMemory(1024);
 	private Program program = null;
 	private ControllerState state = StopState.INSTANCE;
-	private ControllerFlags flags = new ControllerFlags();
+	private Integer amountRegAccess = 0;
 
 	public MicroController() {
 		registers.put("A", new Register(1));
 		registers.put("B", new Register(1));
+		registers.put("IP", new Register(2));
 	}
 
 	public Register getRegister(String registerLetter) {
@@ -23,6 +25,10 @@ public class MicroController {
 
 	public void setRegister(String registerLetter, Integer registerValue) {
 		this.getRegister(registerLetter).setValue(registerValue);
+	}
+
+	public void setRegister(String registerLetter) {
+		this.setRegister(registerLetter, getRegister(registerLetter).getValue());
 	}
 
 	public void setState(ControllerState state) {
@@ -41,10 +47,6 @@ public class MicroController {
 		this.program = prog;
 	}
 
-	public ControllerFlags getFlags() {
-		return this.flags;
-	}
-
 	public Integer readFromMemory(Integer memoryAddr) {
 		return this.memory.getDataFrom(memoryAddr);
 	}
@@ -54,10 +56,15 @@ public class MicroController {
 	}
 
 	public void clearMicro() {
-		registers.get("A").setValue(0);
-		registers.get("B").setValue(0);
+		registers.get("A").reset();
+		registers.get("B").reset();
+		registers.get("IP").reset();
 		memory.cleanMemory();
-		flags.clear();
+		amountRegAccess = 0;
+	}
+
+	public Integer getIP() {
+		return this.getRegister("IP").getValue();
 	}
 
 	public void load(Program program) {
@@ -78,5 +85,22 @@ public class MicroController {
 
 	public void stop() {
 		this.state.stop(this);
+	}
+
+	public void stepBack() {
+		this.state.stepBack(this);
+		this.getRegister("A").setBack(amountRegAccess);
+		this.getRegister("B").setBack(amountRegAccess);
+		this.getRegister("IP").setBack(amountRegAccess);
+		this.memory.setBack();
+		this.amountRegAccess--;
+	}
+
+	public void updateIP() {
+		this.setRegister("IP", this.getRegister("IP").getValue() + 1);
+	}
+
+	public void updateAmounRegExecuted() {
+		this.amountRegAccess++;
 	}
 }
