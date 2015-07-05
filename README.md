@@ -10,6 +10,8 @@ Microcontroller Simulator made in Java8.
 
 **Instruction Set:** BATIS.
 
+**Operation Set:** Load | Start | Execute | Step | StepBack | Stop.
+
 ### BATIS(Basic Assembler Type Instruction Set) Instruction Set:
 
 | Name | Parameters |                      Description                        |
