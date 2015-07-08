@@ -20,8 +20,12 @@ public enum ExecuteState implements ControllerState {
 
 	@Override
 	public void execute(MicroController micro) {
-		micro.getProgram().executeAll(micro);
-		this.stop(micro);
+		try {
+			micro.getProgram().executeAll(micro);
+			this.stop(micro);
+		} catch (FinishedExecutionException e) {
+
+		}
 	}
 
 	@Override
@@ -29,7 +33,8 @@ public enum ExecuteState implements ControllerState {
 		try {
 			micro.getProgram().execute(micro);
 		} catch (FinishedExecutionException e) {
-			this.stop(micro);
+			if (e.getMessage().equals("Last Step Finished"))
+				this.stop(micro);
 		}
 	}
 
@@ -40,7 +45,7 @@ public enum ExecuteState implements ControllerState {
 
 	@Override
 	public void stepBack(MicroController micro) {
-		//Do Nuthing
+		// Do Nuthing
 	}
 
 }
