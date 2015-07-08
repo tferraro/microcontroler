@@ -5,6 +5,7 @@ import java.util.List;
 
 import businessModel.instructions.Add;
 import businessModel.instructions.Div;
+import businessModel.instructions.Halt;
 import businessModel.instructions.Ifnz;
 import businessModel.instructions.Instruction;
 import businessModel.instructions.Lod;
@@ -74,6 +75,11 @@ public class ProgramBuilder {
 		instructions.forEach(instruction -> newProgram
 				.addInstruction(instruction));
 		return newProgram;
+	}
+
+	public ProgramBuilder halt() {
+		this.instructions.add(new Halt());
+		return this;
 	}
 
 }

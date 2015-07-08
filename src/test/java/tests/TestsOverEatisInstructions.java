@@ -139,7 +139,7 @@ public class TestsOverEatisInstructions {
 					e.getMessage());
 		}
 	}
-	
+
 	@Test
 	public void loadWhnzWithNotSupportedValueAndFail() {
 		try {
@@ -149,6 +149,26 @@ public class TestsOverEatisInstructions {
 			assertEquals("Negative and Zero Values not supported.",
 					e.getMessage());
 		}
+	}
+
+	@Test
+	public void haltExecuteCheckingRegisters() {
+		micro.load(new ProgramBuilder().halt().lodv(5).build());
+		micro.start();
+		micro.execute();
+		assertEquals(0, micro.getRegister("A").getValue(), 0);
+		micro.execute();
+		assertEquals(5, micro.getRegister("A").getValue(), 0);
+	}
+	
+	@Test
+	public void haltStepCheckingRegisters() {
+		micro.load(new ProgramBuilder().halt().lodv(5).build());
+		micro.start();
+		micro.step();
+		assertEquals(0, micro.getRegister("A").getValue(), 0);
+		micro.step();
+		assertEquals(5, micro.getRegister("A").getValue(), 0);
 	}
 
 }
