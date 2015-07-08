@@ -5,6 +5,7 @@ import java.util.List;
 
 import businessModel.instructions.Add;
 import businessModel.instructions.Div;
+import businessModel.instructions.Ifnz;
 import businessModel.instructions.Instruction;
 import businessModel.instructions.Lod;
 import businessModel.instructions.Lodv;
@@ -54,6 +55,11 @@ public class ProgramBuilder {
 
 	public ProgramBuilder str(Integer addr) {
 		this.instructions.add(new Str(addr));
+		return this;
+	}
+
+	public ProgramBuilder ifnz(Integer instr) {
+		this.instructions.add(new Ifnz(instr));
 		return this;
 	}
 

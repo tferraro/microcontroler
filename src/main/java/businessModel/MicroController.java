@@ -100,7 +100,12 @@ public class MicroController {
 		this.setRegister("IP", this.getRegister("IP").getValue() + 1);
 	}
 
+	public void updateIP(Integer amount) {
+		this.setRegister("IP", this.getRegister("IP").getValue() + amount);
+	}
+
 	public void updateAmounRegExecuted() {
 		this.amountRegAccess++;
 	}
+
 }
