@@ -81,4 +81,51 @@ public class TestsOverEatisInstructions {
 		assertEquals(1, micro.getRegister("A").getValue(), 0);
 	}
 
+	@Test
+	public void stepWhileNotZeroCheckingRegisters() {
+		// Debug Comments
+		// Register regA = micro.getRegister("A");
+		// Register regb = micro.getRegister("B");
+		// Register regip = micro.getRegister("IP");
+
+		micro.load(new ProgramBuilder().lodv(10).swap().lodv(1).sub().swap()
+				.whnz(4).build());
+		// LODV 10
+		// /SWAP
+		// /LODV 1
+		// /SUB
+		// /SWAP
+		// WHNZ 4
+		micro.start();
+		for (int i = 0; i < 51; i++)
+			micro.step();
+		assertEquals(0, micro.getRegister("A").getValue(), 0);
+		assertEquals(0, micro.getRegister("B").getValue(), 0);
+	}
+
+	@Test
+	public void stepAndBackWhileNotZeroCheckingRegisters() {
+		// Debug Comments
+		// Register regA = micro.getRegister("A");
+		// Register regb = micro.getRegister("B");
+		// Register regip = micro.getRegister("IP");
+
+		micro.load(new ProgramBuilder().lodv(10).swap().lodv(1).sub().swap()
+				.whnz(4).build());
+		// LODV 10
+		// /SWAP
+		// /LODV 1
+		// /SUB
+		// /SWAP
+		// WHNZ 4
+		micro.start();
+		for (int i = 0; i < 50; i++)
+			micro.step();
+		for (int i = 0; i < 50; i++)
+			micro.stepBack();
+		assertEquals(0, micro.getRegister("A").getValue(), 0);
+		assertEquals(0, micro.getRegister("B").getValue(), 0);
+		assertEquals(0, micro.getRegister("IP").getValue(), 0);
+	}
+
 }

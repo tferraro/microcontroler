@@ -13,6 +13,7 @@ import businessModel.instructions.Nop;
 import businessModel.instructions.Str;
 import businessModel.instructions.Sub;
 import businessModel.instructions.Swap;
+import businessModel.instructions.Whnz;
 
 public class ProgramBuilder {
 
@@ -63,10 +64,16 @@ public class ProgramBuilder {
 		return this;
 	}
 
+	public ProgramBuilder whnz(Integer goBack) {
+		this.instructions.add(new Whnz(goBack));
+		return this;
+	}
+
 	public Program build() {
 		Program newProgram = new Program();
 		instructions.forEach(instruction -> newProgram
 				.addInstruction(instruction));
 		return newProgram;
 	}
+
 }
