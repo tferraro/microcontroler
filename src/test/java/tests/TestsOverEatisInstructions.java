@@ -170,5 +170,17 @@ public class TestsOverEatisInstructions {
 		micro.step();
 		assertEquals(5, micro.getRegister("A").getValue(), 0);
 	}
+	
+	@Test
+	public void haltStepBackCheckingRegisters() {
+		micro.load(new ProgramBuilder().halt().lodv(5).build());
+		micro.start();
+		micro.step();
+		micro.stepBack();
+		micro.execute();
+		assertEquals(0, micro.getRegister("A").getValue(), 0);
+		micro.execute();
+		assertEquals(5, micro.getRegister("A").getValue(), 0);
+	}
 
 }
