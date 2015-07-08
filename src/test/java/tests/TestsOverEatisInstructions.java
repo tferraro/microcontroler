@@ -2,6 +2,9 @@ package tests;
 
 import static org.junit.Assert.*;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -160,7 +163,7 @@ public class TestsOverEatisInstructions {
 		micro.execute();
 		assertEquals(5, micro.getRegister("A").getValue(), 0);
 	}
-	
+
 	@Test
 	public void haltStepCheckingRegisters() {
 		micro.load(new ProgramBuilder().halt().lodv(5).build());
@@ -170,7 +173,7 @@ public class TestsOverEatisInstructions {
 		micro.step();
 		assertEquals(5, micro.getRegister("A").getValue(), 0);
 	}
-	
+
 	@Test
 	public void haltStepBackCheckingRegisters() {
 		micro.load(new ProgramBuilder().halt().lodv(5).build());
@@ -181,6 +184,35 @@ public class TestsOverEatisInstructions {
 		assertEquals(0, micro.getRegister("A").getValue(), 0);
 		micro.execute();
 		assertEquals(5, micro.getRegister("A").getValue(), 0);
+	}
+
+	@Test
+	public void prntCheckingOutRedirectingToOwnPrintStream() {
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		PrintStream newPrintStream = new PrintStream(baos);
+		PrintStream stdout = System.out;
+		System.setOut(newPrintStream);
+		micro.load(new ProgramBuilder().lodv(15).prnt().build());
+		micro.start();
+		micro.execute();
+		System.out.flush();
+		System.setOut(stdout);
+		assertEquals("15\n", baos.toString());
+	}
+
+	@Test
+	public void prntWhnzCheckingOutRedirectingToOwnPrintStream() {
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		PrintStream newPrintStream = new PrintStream(baos);
+		PrintStream stdout = System.out;
+		System.setOut(newPrintStream);
+		micro.load(new ProgramBuilder().lodv(10).swap().lodv(1).sub().swap()
+				.prnt().whnz(5).build());
+		micro.start();
+		micro.execute();
+		System.out.flush();
+		System.setOut(stdout);
+		assertEquals("9\n8\n7\n6\n5\n4\n3\n2\n1\n0\n", baos.toString());
 	}
 
 }

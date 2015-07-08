@@ -11,6 +11,7 @@ import businessModel.instructions.Instruction;
 import businessModel.instructions.Lod;
 import businessModel.instructions.Lodv;
 import businessModel.instructions.Nop;
+import businessModel.instructions.Prnt;
 import businessModel.instructions.Str;
 import businessModel.instructions.Sub;
 import businessModel.instructions.Swap;
@@ -79,6 +80,11 @@ public class ProgramBuilder {
 
 	public ProgramBuilder halt() {
 		this.instructions.add(new Halt());
+		return this;
+	}
+
+	public ProgramBuilder prnt() {
+		this.instructions.add(new Prnt());
 		return this;
 	}
 
