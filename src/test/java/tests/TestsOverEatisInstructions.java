@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
+import exceptions.IllegalValueException;
 import businessModel.MicroController;
 import businessModel.Program;
 import businessModel.ProgramBuilder;
@@ -126,6 +127,28 @@ public class TestsOverEatisInstructions {
 		assertEquals(0, micro.getRegister("A").getValue(), 0);
 		assertEquals(0, micro.getRegister("B").getValue(), 0);
 		assertEquals(0, micro.getRegister("IP").getValue(), 0);
+	}
+
+	@Test
+	public void loadIfnzWithNotSupportedValueAndFail() {
+		try {
+			micro.load(new ProgramBuilder().ifnz(0).build());
+			fail("No Exception Throwed");
+		} catch (IllegalValueException e) {
+			assertEquals("Negative and Zero Values not supported.",
+					e.getMessage());
+		}
+	}
+	
+	@Test
+	public void loadWhnzWithNotSupportedValueAndFail() {
+		try {
+			micro.load(new ProgramBuilder().whnz(0).build());
+			fail("No Exception Throwed");
+		} catch (IllegalValueException e) {
+			assertEquals("Negative and Zero Values not supported.",
+					e.getMessage());
+		}
 	}
 
 }
