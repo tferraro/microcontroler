@@ -8,7 +8,7 @@ Microcontroller Simulator made in Java8.
 
 **Registers:** 2 1 byte Registers (A and B), being B the Register the one of the less significative byte.
 
-**Instruction Set:** BATIS.
+**Instruction Set:** EBATIS.
 
 **Operation Set:** Load | Start | Execute | Step | StepBack | Stop.
 
@@ -24,6 +24,13 @@ Microcontroller Simulator made in Java8.
 | LOD  |  **addr**  | Loads Register A with the memory address **addr** value       |
 | STR  |  **addr**  | Loads Register A Value on the memory address **addr**         |
 | LODV |  **val**   | Loads Register A with **val**                                 |
+
+### EBATIS(Extended Basic Assembler Type Instruction Set) Instruction Set:
+
+| Name | Parameters |                         Description                           |
+| ---- | ---------- | ------------------------------------------------------------- |
+| LODV |  **val**   | Loads Register A with **val**                                 |
 | IFNZ |  **goTo**  | If Register A is zero, jumps to **goTo** instruction          | 
 | WHNZ | **goBack** | While Register A is not zero, jumps to **goBack** instruction |
+| PRNT |            | Writes in CommandLine Register A value                        |
 
