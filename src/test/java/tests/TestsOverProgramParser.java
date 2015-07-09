@@ -7,10 +7,10 @@ import java.io.PrintStream;
 
 import org.junit.Test;
 
+import ui.command.ProgramParser;
 import exceptions.ProgramParserException;
 import businessModel.MicroController;
 import businessModel.Program;
-import UI.ProgramParser;
 
 public class TestsOverProgramParser {
 

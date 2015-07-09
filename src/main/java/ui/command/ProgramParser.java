@@ -1,4 +1,4 @@
-package UI;
+package ui.command;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
