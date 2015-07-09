@@ -71,13 +71,6 @@ public class ProgramBuilder {
 		return this;
 	}
 
-	public Program build() {
-		Program newProgram = new Program();
-		instructions.forEach(instruction -> newProgram
-				.addInstruction(instruction));
-		return newProgram;
-	}
-
 	public ProgramBuilder halt() {
 		this.instructions.add(new Halt());
 		return this;
@@ -86,6 +79,13 @@ public class ProgramBuilder {
 	public ProgramBuilder prnt() {
 		this.instructions.add(new Prnt());
 		return this;
+	}
+
+	public Program build() {
+		Program newProgram = new Program();
+		instructions.forEach(instruction -> newProgram
+				.addInstruction(instruction));
+		return newProgram;
 	}
 
 }

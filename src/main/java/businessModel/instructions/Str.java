@@ -15,5 +15,4 @@ public class Str extends Instruction {
 				.getValue());
 		super.execute(micro);
 	}
-
 }

@@ -21,4 +21,5 @@ public class Whnz extends Instruction {
 		} else
 			super.execute(micro);
 	}
+	
 }
