@@ -1,12 +1,13 @@
 package tests;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
 import org.junit.Test;
 
+import exceptions.ProgramParserException;
 import businessModel.MicroController;
 import businessModel.Program;
 import UI.ProgramParser;
@@ -38,6 +39,49 @@ public class TestsOverProgramParser {
 		System.out.flush();
 		System.setOut(stdout);
 		assertEquals("0\n", baos.toString());
+	}
+
+	@Test
+	public void tryParsingWithSintaxErrorAndFail() {
+		try {
+			new ProgramParser().parse("LODV15\n");
+			fail("No Parser Exception Throwed");
+		} catch (ProgramParserException e) {
+			assertEquals("Wrong sintax on Instruction: LODV15", e.getMessage());
+		}
+	}
+
+	@Test
+	public void tryParsingWithSemanticErrorInvalidArgumentTypeAndFail() {
+		try {
+			new ProgramParser().parse("LODV Q\n");
+			fail("No Parser Exception Throwed");
+		} catch (ProgramParserException e) {
+			assertEquals("Semantic Error: For input string: \"Q\"",
+					e.getMessage());
+		}
+	}
+
+	@Test
+	public void tryParsingWithSemanticErrorNoArgumentsAndFail() {
+		try {
+			new ProgramParser().parse("LODV\n");
+			fail("No Parser Exception Throwed");
+		} catch (ProgramParserException e) {
+			assertEquals("Semantic Error: wrong number of arguments",
+					e.getMessage());
+		}
+	}
+
+	@Test
+	public void tryParsingWithSemanticErrorToManyArgumentsAndFail() {
+		try {
+			new ProgramParser().parse("LODV 12 1\n");
+			fail("No Parser Exception Throwed");
+		} catch (ProgramParserException e) {
+			assertEquals("Semantic Error: wrong number of arguments",
+					e.getMessage());
+		}
 	}
 
 }

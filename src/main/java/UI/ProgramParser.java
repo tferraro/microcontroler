@@ -1,5 +1,6 @@
 package UI;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Hashtable;
@@ -36,10 +37,12 @@ public class ProgramParser {
 					builderClass.getDeclaredMethod("str", Integer.class));
 			methodTable.put("WHNZ",
 					builderClass.getDeclaredMethod("whnz", Integer.class));
-
-		} catch (Exception e) { // Generic 'cause many exceptions types
-			throw new ProgramParserException(e.getMessage());
+		} catch (ClassNotFoundException | NoSuchMethodException
+				| SecurityException e) {
+			throw new ProgramParserException(
+					"Error during method Table Creation: " + e.getMessage());
 		}
+
 	}
 
 	public Program parse(String program) {
@@ -50,14 +53,19 @@ public class ProgramParser {
 
 	private void transformMethods(List<String> instr, ProgramBuilder builder) {
 		Method method = methodTable.get(instr.get(0).toUpperCase());
+		if (method == null)
+			throw new ProgramParserException("Wrong sintax on Instruction: "
+					+ instr.get(0));
 		try {
 			if (instr.isEmpty())
 				method.invoke(builder);
 			else
 				method.invoke(builder, convertToCorrectType(instr));
-		} catch (Exception e) { // Generic 'cause many exceptions types
-			throw new ProgramParserException(e.getMessage());
+		} catch (IllegalAccessException | IllegalArgumentException
+				| InvocationTargetException e) {
+			throw new ProgramParserException("Semantic Error: " + e.getMessage());
 		}
+
 	}
 
 	private Object[] convertToCorrectType(List<String> instr) {
