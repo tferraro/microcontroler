@@ -79,8 +79,8 @@ public class TestsOverCommandRunner {
 		}
 	}
 
-	// @Test
-	public void fooX() {
+	@Test
+	public void tryRunnerWithTwoArguments() {
 		// Override stdout to avoid spam
 		PrintStream stdout = System.out;
 		System.setOut(newPrintStream);
