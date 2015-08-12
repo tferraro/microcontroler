@@ -197,7 +197,8 @@ public class TestsOverEatisInstructions {
 		micro.execute();
 		System.out.flush();
 		System.setOut(stdout);
-		assertEquals("15\n", baos.toString());
+		assertEquals("15" + System.getProperty("line.separator"),
+				baos.toString());
 	}
 
 	@Test
@@ -212,7 +213,17 @@ public class TestsOverEatisInstructions {
 		micro.execute();
 		System.out.flush();
 		System.setOut(stdout);
-		assertEquals("9\n8\n7\n6\n5\n4\n3\n2\n1\n0\n", baos.toString());
+		assertEquals(
+				"9" + System.getProperty("line.separator") + "8"
+						+ System.getProperty("line.separator") + "7"
+						+ System.getProperty("line.separator") + "6"
+						+ System.getProperty("line.separator") + "5"
+						+ System.getProperty("line.separator") + "4"
+						+ System.getProperty("line.separator") + "3"
+						+ System.getProperty("line.separator") + "2"
+						+ System.getProperty("line.separator") + "1"
+						+ System.getProperty("line.separator") + "0"
+						+ System.getProperty("line.separator"), baos.toString());
 	}
 
 }

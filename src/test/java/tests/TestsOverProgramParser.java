@@ -38,7 +38,7 @@ public class TestsOverProgramParser {
 		micro.execute();
 		System.out.flush();
 		System.setOut(stdout);
-		assertEquals("0\n", baos.toString());
+		assertEquals("0" + System.getProperty("line.separator"), baos.toString());
 	}
 
 	@Test

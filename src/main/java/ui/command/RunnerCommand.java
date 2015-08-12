@@ -2,12 +2,9 @@ package ui.command;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.List;
 
 import exceptions.RunnerCommandException;
 import businessModel.MicroController;
@@ -54,7 +51,7 @@ public class RunnerCommand {
 	}
 
 	private static void checkFlags(String[] args) {
-		List<String> arguments = Arrays.asList(args);
+		
 		// TODO: Replace with Command
 	}
 

@@ -71,8 +71,6 @@ public class ProgramParser {
 	private Object[] convertToCorrectType(List<String> instr) {
 		List<Integer> intParameters = new LinkedList<Integer>();
 		instr.remove(0);
-		if(arguments.contains("-s"))
-			;
 		instr.forEach(instrString -> intParameters.add(Integer
 				.parseInt(instrString)));
 		return intParameters.toArray();
